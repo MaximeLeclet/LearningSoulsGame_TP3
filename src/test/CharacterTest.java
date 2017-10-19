@@ -2,6 +2,7 @@ package test;
 
 import com.sun.istack.internal.Nullable;
 import lsg.armor.ArmorItem;
+import lsg.buffs.rings.Ring;
 import lsg.weapons.Weapon;
 import org.junit.After;
 import org.junit.Assert;
@@ -821,7 +822,7 @@ public class CharacterTest {
             Field f = c.getDeclaredField("rings");
 
             Assert.assertEquals(f.getModifiers(), Modifier.PRIVATE);
-            Assert.assertEquals(f.getType(), lsg.buffs.rings.Ring[].class);
+            Assert.assertEquals(f.getType(), Ring[].class);
         } catch (ClassNotFoundException e) {
             Assert.fail("should have a class called Hero");
         } catch (NoSuchFieldException e) {
@@ -876,7 +877,7 @@ public class CharacterTest {
 
                 f.setAccessible(true);
 
-                lsg.buffs.rings.Ring[] rings = (lsg.buffs.rings.Ring[]) (f.get(o));
+                Ring[] rings = (Ring[]) (f.get(o));
 
                 Assert.assertEquals(rings.length, 2);
                 Assert.assertEquals(rings[0], null);
@@ -903,7 +904,7 @@ public class CharacterTest {
             Class<?> c1 = Class.forName("lsg.characters.Hero");
             Constructor<?> constructor1 = c1.getDeclaredConstructor(java.lang.String.class);
             Object o1 = constructor1.newInstance("supertoto");
-            Method m1 = c1.getMethod("setRing", lsg.buffs.rings.Ring.class, int.class);
+            Method m1 = c1.getMethod("setRing", Ring.class, int.class);
 
             Assert.assertEquals(m1.getModifiers(), Modifier.PUBLIC);
 
@@ -918,7 +919,7 @@ public class CharacterTest {
 
                 f.setAccessible(true);
 
-                lsg.buffs.rings.Ring[] rings = (lsg.buffs.rings.Ring[]) (f.get(o1));
+                Ring[] rings = (Ring[]) (f.get(o1));
 
                 Assert.assertEquals(rings.length, 2);
                 Assert.assertEquals(rings[0], null);
@@ -926,7 +927,7 @@ public class CharacterTest {
 
                 m1.invoke(o1, o2, 0);
 
-                rings = (lsg.buffs.rings.Ring[]) (f.get(o1));
+                rings = (Ring[]) (f.get(o1));
                 Assert.assertEquals(rings.length, 2);
                 Assert.assertEquals(rings[0], null);
                 Assert.assertEquals(rings[1], null);
@@ -942,7 +943,7 @@ public class CharacterTest {
 
                 f.setAccessible(true);
 
-                lsg.buffs.rings.Ring[] rings = (lsg.buffs.rings.Ring[]) (f.get(o1));
+                Ring[] rings = (Ring[]) (f.get(o1));
 
                 Assert.assertEquals(rings.length, 2);
                 Assert.assertEquals(rings[0], o2);
