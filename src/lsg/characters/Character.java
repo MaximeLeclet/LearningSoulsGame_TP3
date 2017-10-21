@@ -1,5 +1,6 @@
 package lsg.characters;
 
+import lsg.buffs.BuffItem;
 import lsg.helpers.*;
 import lsg.weapons.*;
 
@@ -108,6 +109,8 @@ public abstract class Character {
                 this.setStamina(this.getStamina()-weapon.getStamCost());
             }
 
+            degats = degats + Math.round(degats * computeBuff()/100.0f);
+
             return degats;
 
         }
@@ -116,11 +119,11 @@ public abstract class Character {
 
     public int getHitWith(int value) {
 
-        int degats = (this.getLife()-value < 0) ? this.getLife() : value;
+        float protection = this.computeProtection();
 
-        float protection = computeProtection();
+        int degats = (protection > 100.0) ? 0 : Math.round(value - (value * (protection/100.f)));
 
-        degats = (protection > 100.0f) ? 0 : Math.round(degats * (protection/100.0f)); //////////// marche pas
+        degats = (this.getLife()-degats < 0) ? this.getLife() : degats;
 
         this.setLife(this.getLife()-degats);
         return degats;
@@ -128,6 +131,8 @@ public abstract class Character {
     }
 
     public abstract float computeProtection();
+
+    public abstract float computeBuff();
 
     public void printStats() {
         System.out.println(this.toString());
@@ -137,7 +142,7 @@ public abstract class Character {
     public String toString() {
         String LIFE = String.format("%5d", this.getLife());
         String STAMINA = String.format("%5d",this.getStamina());
-        return (String.format(Locale.US,"%-20s %-20s LIFE:%-10s STAMINA:%-10s PROTECTION: %-10s", ("[ " + this.getClass().getSimpleName() + " ]"), this.getName(), LIFE, STAMINA, computeProtection()) + (this.isAlive() ? "(ALIVE)" : "(DEAD)"));
+        return (String.format(Locale.US,"%-20s %-20s LIFE:%-10s STAMINA:%-10s PROTECTION: %-10s BUFF: %-10s", ("[ " + this.getClass().getSimpleName() + " ]"), this.getName(), LIFE, STAMINA, computeProtection(), computeBuff()) + (this.isAlive() ? "(ALIVE)" : "(DEAD)"));
     }
 
 }

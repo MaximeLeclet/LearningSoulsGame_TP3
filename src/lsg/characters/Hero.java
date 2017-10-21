@@ -3,12 +3,16 @@ package lsg.characters;
 import lsg.armor.ArmorItem;
 import lsg.armor.BlackWitchVeil;
 import lsg.armor.RingedKnightArmor;
+import lsg.buffs.BuffItem;
+import lsg.buffs.rings.Ring;
 
 public class Hero extends Character {
 
     private static int MAX_ARMOR_PIECES = 3;
+    private static int MAX_RINGS = 2;
 
     private ArmorItem[] armor;
+    private Ring[] rings;
 
     public Hero() {
         super();
@@ -18,6 +22,7 @@ public class Hero extends Character {
         this.setMaxStamina(50);
         this.setStamina(this.getMaxStamina());
         this.armor = new ArmorItem[MAX_ARMOR_PIECES];
+        this.rings = new Ring[MAX_RINGS];
     }
 
     public Hero(String name) {
@@ -29,6 +34,18 @@ public class Hero extends Character {
 
         if(slot > 0 && slot <= MAX_ARMOR_PIECES) {
             armor[slot-1] = armorItem;
+        }
+
+    }
+
+    public Ring[] getRings() {
+        return rings;
+    }
+
+    public void setRing(Ring ring, int slot) {
+
+        if(slot > 0 && slot <= MAX_RINGS) {
+            rings[slot-1] = ring;
         }
 
     }
@@ -48,6 +65,24 @@ public class Hero extends Character {
         }
 
         return totalArmor;
+
+    }
+
+    public float getTotalBuff() {
+
+        float totalBuff = 0;
+
+        for(int i = 0; i < MAX_RINGS; i++) {
+
+            if(rings[i] != null) {
+
+                totalBuff += rings[i].computeBuffValue();
+
+            }
+
+        }
+
+        return totalBuff;
 
     }
 
@@ -102,6 +137,9 @@ public class Hero extends Character {
     public float computeProtection() {
         return getTotalArmor();
     }
+
+    @Override
+    public float computeBuff() { return getTotalBuff(); }
 
     public static void main(String[] args) {
 

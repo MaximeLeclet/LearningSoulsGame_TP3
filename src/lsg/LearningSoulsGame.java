@@ -1,5 +1,10 @@
 package lsg;
 
+import lsg.armor.BlackWitchVeil;
+import lsg.armor.DragonSlayerLeggings;
+import lsg.armor.RingedKnightArmor;
+import lsg.buffs.rings.RingOfDeath;
+import lsg.buffs.rings.RingOfSwords;
 import lsg.characters.*;
 import lsg.weapons.Claw;
 import lsg.weapons.ShotGun;
@@ -11,9 +16,9 @@ import java.util.Scanner;
 
 public class LearningSoulsGame {
 
-    private lsg.characters.Character hero = new Hero();
+    private lsg.characters.Hero hero = new Hero();
 
-    private lsg.characters.Character monster = new Monster();
+    private lsg.characters.Monster monster = new Monster();
 
     private Scanner scanner = new Scanner(System.in);
 
@@ -21,7 +26,7 @@ public class LearningSoulsGame {
 
         LearningSoulsGame learningSoulsGame = new LearningSoulsGame();
 
-        learningSoulsGame.play_v1();
+        learningSoulsGame.play_v3();
 
     }
 
@@ -29,6 +34,16 @@ public class LearningSoulsGame {
 
         hero.setWeapon(new Sword());
         monster.setWeapon(new Claw());
+        hero.setArmorItem(new BlackWitchVeil(), 1);
+        hero.setArmorItem(new DragonSlayerLeggings(), 2);
+        hero.setArmorItem(new RingedKnightArmor(), 3);
+        RingOfDeath ringOfDeath = new RingOfDeath();
+        RingOfSwords ringOfSwords = new RingOfSwords();
+        hero.setRing(ringOfDeath, 1);
+        ringOfDeath.setHero(hero);
+        ringOfSwords.setHero(hero);
+        hero.setRing(ringOfSwords, 2);
+        monster = new Lycanthrope();
 
     }
 
@@ -58,11 +73,27 @@ public class LearningSoulsGame {
 
         }
 
+        refresh();
+
         System.out.println("\n--- " + attacked.getName() + " WINS !!! ---");
 
     }
 
     public void play_v1() {
+
+        init();
+        fight1v1();
+
+    }
+
+    public void play_v2() {
+
+        init();
+        fight1v1();
+
+    }
+
+    public void play_v3() {
 
         init();
         fight1v1();
